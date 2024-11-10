@@ -54,3 +54,86 @@ footer {
     width: 100%;
     bottom: 0;
 }
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    color:rgb(0, 0, 0);
+    background-color: #000000;
+}
+h1 {
+    text-align: center;
+    color: #ffffff;
+}
+.teachers-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.teacher {
+    background-color: rgb(0, 0, 0);
+    border-radius: 9px;
+    top: 1000px;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+    text-align: center;
+    padding: 10px;
+    width: 200px;
+}
+.teacher img {
+    width: 100%;
+    border-radius: 10px;
+    }
+.teacher h3 {
+    color:rgb(255, 255, 255);
+    margin: 10px 0 5px;
+    font-size: 1.2em;
+    border:rgb(78, 78, 78) solid 3px;
+    border-radius:360px;
+    background-color: rgb(78, 78, 78);
+}
+.teacher p {
+    margin: 0;
+    color: #000000;
+}
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            color:white;
+        }
+        h1 {
+            text-align: center;
+            left:100px;
+
+        }
+        .course-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .course {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 400px;
+            margin: 10px;
+            text-align: center;
+        }
+        .course img {
+            width: 100%;
+            height: auto;
+        }
+        .course button {
+            background-color: #9747FF; /* Зеленый цвет */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            
+        }
+        .course button:hover {
+            background-color: #45a049; /* Темнее зеленый при наведении */
+        }
