@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+        }
+        .topbar {
+            background-color: #000000;
+            color: rgb(255, 255, 255);
+            padding:0px 0px;
+            text-align: center;
+        }
+        .sidebar {
+            width: 150px;
+            background-color: #000000;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .sidebar button {
+            background-color: transparent;
+            color: white;
+            border-radius: 5px;
+            padding: 15px;
+            text-align: left;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .sidebar button:hover {
+            background-color: #9747FF;
+            border-radius:5px;
+        }
+        .chat-area {
+            color:#fff;
+            flex-grow: 1;
+            background-color: #151515;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid #000000;
+            border-right: 1px solid #bdc3c7;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .message.sent {
+            position: absolute;
+            background-color: #8400ff;
+            color: white;
+            align-self: flex-end;
+            position: absolute;
+        }
+        .message.received {
+            position: relative;
+            background-color: #3f3a3a;
+            color: rgb(255, 255, 255);
+            align-self: flex-start;
+        }
+        .bottombar {
+            background-color: #ffffff;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .chat-area input {
+            background-color: rgb(115, 115, 115);
+            color:#fff;
+            border-radius: 15px;
+        }
+        .chat-area button {
+            background-color: #380363;
+            color: white;
+            top:-30px;
+            left: 1565px;
+            border-radius: 15px;
+            width:90px;
+            height:40px;
+            text-align: center;
+            position:relative;
+        }
+        .bottombar button {
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SM</title>
+    </head>
+    <body>
+        <link rel="stylesheet" href="style_main.css">
+        <nav>
+            <ul>
+                <li><img src="logotip.jpg" width="100"></li>
+                <li><a href="main.html">Главная</a></li>
+                <li><a href="chats.html">Чаты</a></li>
+                <li><a href="#">Мои курсы</a></li>
+                <li><a href="vebinar.html">Вебинар</a></li>
+            </ul>
+        </nav>
+        <body>
+        <main>
+            <section>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024</p>
+        </footer>
+    </body>
+</div>
+
+<div style="display: flex; flex-grow: 1;">
+    <div class="sidebar">
+        <button onclick="selectTab('friends')">Друзья</button>
+        <button onclick="selectTab('messages')">Сообщения</button>
+        <button onclick="selectTab('chats')">Чаты</button>
+    </div>
+
+    <div class="chat-area" id="chatArea">
+        <h2 id="chatTitle">Выберите чат</h2>
+        <div class="friend-search" id="friendSearch">
+            <input type="text" id="friendIdInput" placeholder="Поиск по ID или @"/>
+
+        </div>
+        <div id="messagesContainer" style="flex-grow: 1; overflow-y: auto;"></div>
+        <input type="text" id="messageInput" placeholder="Введите сообщение..." />
+        <button onclick="sendMessage()">Отправить</button>
+    </div>
+</div>
+
+<script></script>
+    async function loadMessages() {
+        const response = await fetch('/messages');
+        const messages = await response.json();
+        const messagesContainer = document.getElementById('messagesContainer');
+        messagesContainer.innerHTML = ''; // Очистить контейнер
+        messages.forEach(message => {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message received';
+            messageDiv.textContent = message;
+            messagesContainer.appendChild(messageDiv);
+        });
+
+        messagesContainer.scrollTop = messagesContainer.scrollHeight; // Прокрутка вниз
+    }
+
+    async function sendMessage() {
+        const messageInput = document.getElementById('messageInput');
+        const messageText = messageInput.value.trim();
+
+        if (messageText !== '') {
+            const newMessage = { message: messageText };
+
+            // Отправка сообщения на сервер
+            await fetch('/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newMessage),
+            });
+
+            messageInput.value = '';
+            loadMessages(); // Перезагрузить сообщения
+        }
+    }
+
+    window.onload = loadMessages; // Загрузить сообщения при загрузке страницы
+</script>
+<script>
+    function selectTab(tab) {
+        const chatTitle = document.getElementById('chatTitle');
+        const messagesContainer = document.getElementById('messagesContainer');
+        const friendSearch = document.getElementById('friendSearch');
+        
+        if (tab === 'friends') {
+            chatTitle.textContent = 'Друзья';
+            messagesContainer.innerHTML = '<p>Здесь вы можете видеть своих друзей.</p>';
+            friendSearch.style.display = 'block';
+        } else if (tab === 'messages') {
+            chatTitle.textContent = 'Сообщения';
+            messagesContainer.innerHTML = '<p>Здесь будут ваши сообщения.</p>';
+            friendSearch.style.display = 'none';
+        } else if (tab === 'chats') {
+            chatTitle.textContent = 'Чаты';
+            messagesContainer.innerHTML = '<p>Здесь будет ваш чат.</p>';
+            friendSearch.style.display = 'none'
+        }
+    }
+
+    function sendMessage() {
+        const messageInput = document.getElementById('messageInput');
+        const messagesContainer = document.getElementById('messagesContainer');
+
+        if (messageInput.value.trim() !== '') {
+            const newMessage = document.createElement('div');            newMessage.className = 'message sent';
+            newMessage.textContent = messageInput.value;
+
+            messagesContainer.appendChild(newMessage);
+            messageInput.value = '';
+        }
+    }
+</script>
+<script>
+    // Функция для загрузки сообщений из localStorage
+    function loadMessages() {
+        const messages = JSON.parse(localStorage.getItem('messages')) || [];
+        const messagesContainer = document.getElementById('messagesContainer');
+        messagesContainer.innerHTML = ''; // Очистить контейнер
+
+        messages.forEach(message => {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ' + (message.sent ? 'sent' : 'received');
+            messageDiv.textContent = message.text;
+            messagesContainer.appendChild(messageDiv);
+        });
+
+        messagesContainer.scrollTop = messagesContainer.scrollHeight; // Прокрутка вниз
+    }
+
+    // Функция для отправки сообщения
+    function sendMessage() {
+        const messageInput = document.getElementById('messageInput');
+        const messageText = messageInput.value.trim();
+
+        if (messageText !== '') {
+            const messages = JSON.parse(localStorage.getItem('messages')) || [];
+            messages.push({ text: messageText, sent: true }); // Добавляем новое сообщение как отправленное
+            localStorage.setItem('messages', JSON.stringify(messages)); // Сохраняем в localStorage
+
+            messageInput.value = ''; // Очищаем поле ввода
+            loadMessages(); // Перезагружаем сообщения
+        }
+    }
+
+    // Загружаем сообщения при загрузке страницы
+    window.onload = loadMessages;
+</script>
+
+</body>
+</html>

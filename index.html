@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <link rel="stylesheet" href="style_registration.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, ">
+        <title>Регистрация</title>
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <li><img src="logotip.jpg" height="100"></li>
+            </ul>
+        </nav>
+        <body>
+        <main>
+            <section>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024</p>
+        </footer>
+    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<form action="main.html" onsubmit="return validateForm()">
+    <div class="container">
+      <h1>
+        <span style="color: #ffffff ">Форма регистрации</span></h1>
+      <p>Пожалуйста, заполните эту форму, чтобы создать учетную запись.</p>
+      <hr>
+      
+      <label for="email"><b>Telegram</b></label>
+      <input type="text" style="color:#000000" placeholder="Введите ваш телеграмм" name="Telegram" required>
+
+      <label for="email"><b>Email</b></label>
+      <input type="text" style="color:#000000" placeholder="Введите вашу почту" name="email" required>
+  
+      <label for="password"><b>Пароль</b></label>
+      <input type="password" id="password" style="color:#000000" placeholder="Введите пароль" name="psw" required>
+  
+      <label for="ConfirmPassword"><b>Повторить пароль</b></label>
+      <input type="password" id="ConfirmPassword" style="color: #000000" placeholder="Повторите пароль" name="psw-repeat" required>
+      <div id="error-message" class="error"></div>
+
+      <label>
+        <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Запомнить меня
+      </label>
+      <p>Уже зарегистрированы? <a href="login.html">Войдите в систему</a>.</p>
+  
+      <div class="clearfix">
+        <button type="submit" href class="signupbtn">Регистрация</button>
+      </div>
+    </div>
+  </form>
+  <script>
+    function validateForm() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const errorMessage = document.getElementById('error-message');
+
+        if (password !== confirmPassword) {
+            errorMessage.textContent = 'Пароли не совпадают!';
+            return false; // Предотвращает отправку формы
+        }
+
+        errorMessage.textContent = ''; // Очищает сообщение об ошибке
+        return true; // Позволяет отправить форму
+    }
+</script>
+</html>
